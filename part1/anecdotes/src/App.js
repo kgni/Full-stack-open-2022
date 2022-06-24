@@ -22,16 +22,23 @@ const App = () => {
 	};
 
 	const addVote = () => {
-		setVotes((prevData) => {
-			return prevData.map((el, index) => {
-				if (index === selected) {
-					return el + 1;
-				} else {
-					return el;
-				}
-			});
-		});
+		const newVotes = [...votes];
+		newVotes[selected] += 1;
+		setVotes(newVotes);
 	};
+
+	// this was my original solution to adding votes.. (i was overthinking stuff).. I tried to take in the old array and do something like in the example solution.. There of course is no need to use map like this, when we already
+	// const addVote = () => {
+	// 	setVotes((prevData) => {
+	// 		return prevData.map((el, index) => {
+	// 			if (index === selected) {
+	// 				return el + 1;
+	// 			} else {
+	// 				return el;
+	// 			}
+	// 		});
+	// 	});
+	// };
 
 	// find index of anecdote with most votes:
 	const mostVotesIndex = votes.indexOf(Math.max(...votes));
