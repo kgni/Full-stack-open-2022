@@ -18,6 +18,9 @@ const App = () => {
 
 	const setRandomIndex = () => {
 		let randNum = Math.floor(Math.random() * anecdotes.length);
+		while (randNum === selected) {
+			randNum = Math.floor(Math.random() * anecdotes.length);
+		}
 		setSelected(randNum);
 	};
 
