@@ -8,7 +8,7 @@ const Content = (props) => {
 
 	const total = props.parts.reduce((acc, c) => acc + c.exercises, 0);
 	return (
-		<div>
+		<div className="content">
 			{partList}
 			<p>
 				<strong>total of {total} exercises</strong>
