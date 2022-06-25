@@ -18,6 +18,7 @@ const App = () => {
 
 	const setRandomIndex = () => {
 		let randNum = Math.floor(Math.random() * anecdotes.length);
+		// while loop so we are never going to get the same anecdote 2 times in a row.
 		while (randNum === selected) {
 			randNum = Math.floor(Math.random() * anecdotes.length);
 		}
