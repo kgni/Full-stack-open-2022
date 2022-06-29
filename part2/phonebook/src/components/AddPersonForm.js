@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from './Input';
-
+import personService from '../services/persons';
 const AddPersonForm = ({
 	persons,
 	setPersons,
@@ -34,9 +34,25 @@ const AddPersonForm = ({
 		const numbers = persons.map((person) => person.number);
 
 		// check if name is already in the list. If it is we alert and return to stop execution of the function
-		if (names.includes(newName.toLowerCase())) {
-			alert(`${newName} is already added to the phonebook`);
-			return;
+		if (names.includes(newName.toLowerCase()) && !numbers.includes(number)) {
+			if (
+				window.confirm(
+					`${newName} is already added to the phonebook, replace the old number with a new one?`
+				)
+			) {
+				let updatedPerson = persons.find((person) => person.name === newName);
+				updatedPerson.number = number;
+
+				personService.update(updatedPerson.id, updatedPerson);
+				setPersons((prevPersons) =>
+					prevPersons.map((person) =>
+						person.id !== updatedPerson.id ? person : updatedPerson
+					)
+				);
+				setNewName('');
+				setNewNumber('');
+				return;
+			}
 		}
 
 		if (numbers.includes(number)) {
@@ -47,12 +63,13 @@ const AddPersonForm = ({
 		const personObject = {
 			name: newName,
 			number: number,
-			id: persons.length + 1,
 		};
 
-		setPersons((prevPersons) => {
-			return [...prevPersons, personObject];
-		});
+		personService.create(personObject).then((response) =>
+			setPersons((prevPersons) => {
+				return [...prevPersons, response.data];
+			})
+		);
 
 		console.log(`${newName} - ${number} was added to the phonebook`);
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import AddPersonForm from './components/AddPersonForm';
 import Numbers from './components/Numbers';
 import Filter from './components/Filter';
+import personService from './services/persons';
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
@@ -12,13 +13,14 @@ const App = () => {
 
 	// fetching data from our json-server and setting our person state with the data
 	useEffect(() => {
-		async function getPersons() {
-			const response = await axios.get('http://localhost:3001/persons');
-			const data = await response.data;
-			setPersons(data);
-			console.log(data);
-		}
-		getPersons();
+		personService.getAll().then((response) => setPersons(response.data));
+		// async function getPersons() {
+		// 	const response = await axios.get('http://localhost:3001/persons');
+		// 	const data = await response.data;
+		// 	setPersons(data);
+		// 	console.log(data);
+		// }
+		// getPersons();
 	}, []);
 
 	// creating filtering condition. If filterName is empty, then the value is falsy which means we use the entire array of persons.
@@ -54,7 +56,7 @@ const App = () => {
 			<h2>Numbers</h2>
 			<ul>
 				{personsToShow.map((person) => (
-					<Numbers key={person.id} person={person} />
+					<Numbers setPersons={setPersons} key={person.id} person={person} />
 				))}
 			</ul>
 		</div>
