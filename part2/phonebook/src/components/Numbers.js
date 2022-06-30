@@ -1,7 +1,12 @@
 import React from 'react';
 import personService from '../services/persons';
 
-const Numbers = ({ setPersons, person, setErrorMessage }) => {
+const Numbers = ({
+	setPersons,
+	person,
+	setErrorMessage,
+	setSuccessMessage,
+}) => {
 	const deleteHandler = () => {
 		window.confirm(`Delete ${person.name} ?`);
 
@@ -11,6 +16,12 @@ const Numbers = ({ setPersons, person, setErrorMessage }) => {
 				setPersons((prevPersons) =>
 					prevPersons.filter((prevPerson) => prevPerson.id !== person.id)
 				);
+
+				setSuccessMessage(`${person.name} was successfully deleted`);
+
+				setTimeout(() => {
+					setSuccessMessage(null);
+				}, 5000);
 			})
 			.catch((error) => {
 				setErrorMessage(

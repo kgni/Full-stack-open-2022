@@ -71,6 +71,7 @@ const App = () => {
 			<ul>
 				{personsToShow.map((person) => (
 					<Numbers
+						setSuccessMessage={setSuccessMessage}
 						setErrorMessage={setErrorMessage}
 						setPersons={setPersons}
 						key={person.id}

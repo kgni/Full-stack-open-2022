@@ -42,6 +42,7 @@ const AddPersonForm = ({
 				)
 			) {
 				let updatedPerson = persons.find((person) => person.name === newName);
+				const oldNumber = updatedPerson.number;
 				updatedPerson.number = number;
 
 				personService.update(updatedPerson.id, updatedPerson);
@@ -50,6 +51,14 @@ const AddPersonForm = ({
 						person.id !== updatedPerson.id ? person : updatedPerson
 					)
 				);
+				setSuccessMessage(
+					`${newName}'s number was changed from ${oldNumber} to ${number}`
+				);
+
+				setTimeout(() => {
+					setSuccessMessage(null);
+				}, 5000);
+
 				setNewName('');
 				setNewNumber('');
 				return;
