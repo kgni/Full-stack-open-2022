@@ -1,12 +1,26 @@
 import React from 'react';
 import personService from '../services/persons';
 
-const Numbers = ({ setPersons, person }) => {
+const Numbers = ({ setPersons, person, setErrorMessage }) => {
 	const deleteHandler = () => {
 		window.confirm(`Delete ${person.name} ?`);
 
-		personService.deletePerson(person.id);
+		personService
+			.deletePerson(person.id)
+			.then((response) => {
+				setPersons((prevPersons) =>
+					prevPersons.filter((prevPerson) => prevPerson.id !== person.id)
+				);
+			})
+			.catch((error) => {
+				setErrorMessage(
+					`Information of ${person.name} has already been removed from the server`
+				);
 
+				setTimeout(() => {
+					setErrorMessage(null);
+				}, 5000);
+			});
 		setPersons((prevPersons) =>
 			prevPersons.filter((prevPerson) => prevPerson.id !== person.id)
 		);

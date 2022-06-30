@@ -1,15 +1,25 @@
 import { useEffect, useState } from 'react';
 // import axios from 'axios';
+
+// components
 import AddPersonForm from './components/AddPersonForm';
 import Numbers from './components/Numbers';
 import Filter from './components/Filter';
 import personService from './services/persons';
+import NotificationError from './components/Notifications/NotificationError';
+import NotificationSuccess from './components/Notifications/NotificationSuccess';
+
+// styles
+
+import './index.css';
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
 	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
 	const [filterName, setFilterName] = useState('');
+	const [successMessage, setSuccessMessage] = useState(null);
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	// fetching data from our json-server and setting our person state with the data
 	useEffect(() => {
@@ -35,6 +45,9 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
+			<NotificationSuccess message={successMessage} />
+			<NotificationError message={errorMessage} />
+
 			<Filter
 				input={{
 					id: 'filter',
@@ -45,6 +58,7 @@ const App = () => {
 			/>
 
 			<AddPersonForm
+				setSuccessMessage={setSuccessMessage}
 				persons={persons}
 				setPersons={setPersons}
 				newName={newName}
@@ -56,7 +70,12 @@ const App = () => {
 			<h2>Numbers</h2>
 			<ul>
 				{personsToShow.map((person) => (
-					<Numbers setPersons={setPersons} key={person.id} person={person} />
+					<Numbers
+						setErrorMessage={setErrorMessage}
+						setPersons={setPersons}
+						key={person.id}
+						person={person}
+					/>
 				))}
 			</ul>
 		</div>

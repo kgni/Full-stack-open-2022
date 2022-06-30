@@ -8,6 +8,7 @@ const AddPersonForm = ({
 	setNewName,
 	newNumber,
 	setNewNumber,
+	setSuccessMessage,
 }) => {
 	const addPersonHandler = (event) => {
 		event.preventDefault();
@@ -70,6 +71,12 @@ const AddPersonForm = ({
 				return [...prevPersons, response.data];
 			})
 		);
+
+		setSuccessMessage(`Added ${newName}`);
+
+		setTimeout(() => {
+			setSuccessMessage(null);
+		}, 5000);
 
 		console.log(`${newName} - ${number} was added to the phonebook`);
 
